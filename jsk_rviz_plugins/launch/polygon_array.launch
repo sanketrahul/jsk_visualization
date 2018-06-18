@@ -1,0 +1,24 @@
+<launch>
+  <arg name="input" default="/camera/depth_registered/points" />
+  <arg name="sensor_frame" default="/camera_rgb_optical_frame" />
+  <arg name="manager" default="tabletop_object_detector_nodelet_manager" />
+  <arg name="machine" default="localhost" />
+
+  <arg name="launch_openni" default="true" />
+  <arg name="launch_rviz" default="true" />
+  <arg name="publish_tf" default="true" />
+
+  <machine name="localhost" address="localhost" />
+
+  <!-- openni driver -->
+  <include file="$(find openni_launch)/launch/openni.launch"
+           if="$(arg launch_openni)">
+    <arg name="depth_registration" value="true" />
+  </include>
+
+  <!-- visualization -->
+  <node pkg="rviz" type="rviz" name="rviz_polygon_array" 
+	args="-d $(find jsk_rviz_plugins)/cfg/polygon_array_sample.rviz" />
+	if="$(arg launch_rviz)"/>
+  
+</launch>
